@@ -1,0 +1,14 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.venv
+
+# Local data while prepping to upload to BQ
+data/ 
+
+.devcontainer/devcontainer-lock.json
+.streamlit/secrets.toml

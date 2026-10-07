@@ -1,0 +1,22 @@
+[theme]
+base = "light"
+
+# Primary Color: "Chinese Red" (Zhongguo Hong) - Symbolizes luck, joy, and vitality.
+# This will style your active tabs, buttons, and sliders.
+primaryColor = "#C91F37" 
+
+# Background Color: "Rice Paper" - A very soft, warm off-white.
+# Much easier on the eyes than stark white, giving a subtle, classic texture.
+backgroundColor = "#FAF8F5" 
+
+# Secondary Background: "Warm Silk/Beige" 
+# Used for the sidebar and st.info/st.warning boxes to create gentle contrast.
+secondaryBackgroundColor = "#F0EBE1" 
+
+# Text Color: "Ink Black" (Mo Hei) - A deep, rich charcoal rather than pure black.
+# Mimics traditional calligraphy ink for excellent readability.
+textColor = "#1C1C1C" 
+
+# Font: Serif pairs beautifully with this aesthetic, giving a classic, 
+# literary feel reminiscent of traditional typography.
+font = "serif"
