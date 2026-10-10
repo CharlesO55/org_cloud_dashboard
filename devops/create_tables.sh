@@ -3,10 +3,12 @@ set -euo pipefail
 
 
 # Configuration
-PROJECT_ID="association-508416"
-LOCATION="asia-southeast1"
-DATASET_ID="analytics_db"
+export $(grep -v '^#' .env | xargs)
 SCHEMA_DIR="./schemas"
+
+# Use the variables
+echo "Location: $LOCATION"
+echo "Dataset: $DATASET_ID"
 
 
 # ==========================================
@@ -49,6 +51,16 @@ for schema_path in "${SCHEMA_DIR}"/*.json; do
       "${PROJECT_ID}:${DATASET_ID}.${table_name}" \
       "${schema_path}"
   fi
+
+
+  bq load \
+    --source_format=CSV \
+    --skip_leading_rows=1 \
+    --null_marker="" \
+    --encoding=UTF-8 \
+    "${PROJECT_ID}:${DATASET_ID}.${table_name}" \
+    ./data/${table_name}.csv
+    
 done
 
 

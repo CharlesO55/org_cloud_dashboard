@@ -1,0 +1,5 @@
+[
+  {"name": "appointment_date", "type": "DATE", "mode": "REQUIRED"},
+  {"name": "position", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "name", "type": "STRING", "mode": "REQUIRED"}
+]

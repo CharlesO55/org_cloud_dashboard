@@ -1,0 +1,5 @@
+[
+  {"name": "date", "type": "DATE", "mode": "REQUIRED"},
+  {"name": "name", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "amount", "type": "FLOAT", "mode": "REQUIRED"}
+]

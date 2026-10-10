@@ -1,0 +1,8 @@
+[
+  {"name": "date", "type": "DATE", "mode": "REQUIRED"},
+  {"name": "donor_name", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "donor_type", "type": "STRING", "mode": "REQUIRED", "description": "member or ogranization"},
+  {"name": "event", "type": "STRING", "mode": "NULLABLE", "description": "mooncake festival, inaugguration..."},
+  {"name": "category", "type": "STRING", "mode": "REQUIRED", "description": "donation, raffle, hospitality"},
+  {"name": "amount", "type": "FLOAT", "mode": "REQUIRED"}
+]
