@@ -12,3 +12,5 @@ data/
 
 .devcontainer/devcontainer-lock.json
 .streamlit/secrets.toml
+
+.env
