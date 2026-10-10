@@ -1,9 +1,15 @@
 {
   "name": "Streamlit App (uv)",
-  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "features": {
     "ghcr.io/devcontainers-extra/features/uv:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true
+    }
   },
   "forwardPorts": [8501],
   "portsAttributes": {
@@ -26,7 +32,8 @@
         "ms-python.python",
         "ms-python.vscode-pylance",
         "charliermarsh.ruff",
-        "tamasfe.even-better-toml"
+        "tamasfe.even-better-toml",
+        "google.google-antigravity"
       ],
       "settings": {
         "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
@@ -40,5 +47,5 @@
   "mounts": [
     "source=streamlit-uv-cache,target=/root/.cache/uv,type=volume"
   ],
-  "postCreateCommand": "uv sync"
+  "postCreateCommand": "bash .devcontainer/setup.sh"
 }
