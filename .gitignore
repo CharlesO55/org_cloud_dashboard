@@ -8,9 +8,9 @@ wheels/
 .venv
 
 # Local data while prepping to upload to BQ
-data/ 
-
 .devcontainer/devcontainer-lock.json
 .streamlit/secrets.toml
-
 .env
+
+data/*
+!data/samples/
