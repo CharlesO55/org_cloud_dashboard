@@ -1,5 +1,0 @@
-[
-  {"name": "year", "type": "INTEGER", "mode": "REQUIRED"},
-  {"name": "email", "type": "STRING", "mode": "NULLABLE"},
-  {"name": "created_at", "type": "TIMESTAMP", "mode": "REQUIRED"}
-]

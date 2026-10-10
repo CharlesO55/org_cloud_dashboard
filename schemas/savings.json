@@ -1,0 +1,5 @@
+[
+  {"name": "date", "type": "DATE", "mode": "REQUIRED"},
+  {"name": "interest", "type": "FLOAT", "mode": "REQUIRED"},
+  {"name": "tax", "type": "FLOAT", "mode": "REQUIRED"}
+]
