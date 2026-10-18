@@ -3,15 +3,26 @@ from enum import StrEnum, auto
 DATABASE_ID = "analytics_db"
 
 
-class TableNames(StrEnum):
+class TableName(StrEnum):
     @staticmethod
     def _generate_next_value_(name, start, count, last_values):
         return f"{DATABASE_ID}.{name.lower()}"
 
-    contributions = auto()
-    loans = auto()
-    savings = auto()
+    Contributions = auto()
+    Loans = auto()
+    Savings = auto()
 
-    expenses = auto()
+    Expenses = auto()
 
-    members = auto()
+    Members = auto()
+
+
+class ExpenseCategory(StrEnum):
+    @staticmethod
+    def _generate_next_value_(name, start, count, last_values):
+        return f"{name.lower().replace('_', ' ')}"
+
+    Inauguration = auto()
+    Interorganization_affairs = auto()
+    Maintenance = auto()
+    Meetings = auto()
