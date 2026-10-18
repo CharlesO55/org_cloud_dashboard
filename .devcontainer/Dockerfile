@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/python:1-3.12-bookworm
+FROM mcr.microsoft.com/devcontainers/python:3.14-trixie
 
 # Install system dependencies required by Google Antigravity
 RUN rm -f /etc/apt/sources.list.d/yarn.list \

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-# Sync dependencies with uv
+sudo chown -R $(whoami) /home/vscode/.cache/uv
+
 uv sync
+echo "Setup successful!"
