@@ -46,8 +46,8 @@
     }
   },
   "mounts": [
-    "source=streamlit-uv-cache,target=/home/vscode/.cache/uv,type=volume",
-    "source=${localEnv:USERPROFILE}/.config/gcloud,target=/home/vscode/.config/gcloud,type=bind"
+    "source=dashboard-app-cache,target=/home/vscode/.cache/uv,type=volume",
+    "source=gcloud-config-cache,target=/home/vscode/.config/gcloud,type=volume"
   ],
   "postCreateCommand": "bash .devcontainer/setup.sh"
 }
