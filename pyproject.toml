@@ -10,7 +10,7 @@ dependencies = [
     "ruff",
     "google-cloud-bigquery",
     "python-dotenv",
-    "db-dtypes>=1.8.0",
+    "db-dtypes",
 ]
 [tool.poetry]
 package-mode = false

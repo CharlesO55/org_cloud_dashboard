@@ -26,6 +26,10 @@
     "STREAMLIT_BROWSER_GATHER_USAGE_STATS": "false",
     "UV_LINK_MODE": "copy"
   },
+  "remoteEnv": {
+    "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}",
+    "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
