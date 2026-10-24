@@ -6,21 +6,21 @@ from src.constants import ExpenseCategory, TableName
 
 
 @st.cache_resource
-def get_bq_client() -> bigquery.Client:
-    return bigquery.Client(
-        project=st.secrets["project_id"],
-        location=st.secrets["location"],
-    )
+def get_data_repo() -> DataRepo:
+    return DataRepo()
 
 
 class DataRepo:
     """Container for fetch data methods."""
 
     def __init__(self):
-        pass
+        self.client = bigquery.Client(
+            project=st.secrets["project_id"],
+            location=st.secrets["location"],
+        )
 
     def _get_data(self, sql: str) -> pd.DataFrame:
-        return get_bq_client().query(query=sql).to_dataframe()
+        return self.client.query(query=sql).to_dataframe()
 
     @st.cache_data
     def get_savings_data(_self) -> pd.DataFrame:
@@ -72,6 +72,6 @@ class DataRepo:
 
 
 if __name__ == "__main__":
-    repo = DataRepo()
+    repo = get_data_repo()
     df = repo.get_expenses_data([ExpenseCategory.Maintenance, ExpenseCategory.Meetings])
     print(df)
