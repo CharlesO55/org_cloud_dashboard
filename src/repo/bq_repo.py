@@ -4,15 +4,10 @@ from google.cloud import bigquery
 
 from src.constants import ExpenseCategory, TableName
 
-
-@st.cache_resource
-def get_data_repo() -> DataRepo:
-    return DataRepo()
+from src.data_repo import DataRepo
 
 
-class DataRepo:
-    """Container for fetch data methods."""
-
+class BigqueryRepo(DataRepo):
     def __init__(self):
         self.client = bigquery.Client(
             project=st.secrets["project_id"],
@@ -69,9 +64,3 @@ class DataRepo:
             FROM `{TableName.Members}`
         """
         return _self._get_data(query_string)
-
-
-if __name__ == "__main__":
-    repo = get_data_repo()
-    df = repo.get_expenses_data([ExpenseCategory.Maintenance, ExpenseCategory.Meetings])
-    print(df)
