@@ -270,7 +270,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "db-dtypes", specifier = ">=1.8.0" },
+    { name = "db-dtypes" },
     { name = "google-cloud-bigquery" },
     { name = "pandas" },
     { name = "python-dotenv" },
