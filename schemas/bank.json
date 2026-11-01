@@ -1,5 +1,7 @@
 [
   {"name": "date", "type": "DATE", "mode": "REQUIRED"},
+  {"name": "category", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "account", "type": "STRING", "mode": "REQUIRED"},
   {"name": "interest", "type": "FLOAT", "mode": "REQUIRED"},
   {"name": "tax", "type": "FLOAT", "mode": "REQUIRED"}
 ]
