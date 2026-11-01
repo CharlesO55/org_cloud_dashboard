@@ -1,5 +1,6 @@
 from enum import StrEnum, auto
 
+
 DATABASE_ID = "analytics_db"
 
 
@@ -26,3 +27,15 @@ class ExpenseCategory(StrEnum):
     Interorganization_affairs = auto()
     Maintenance = auto()
     Meetings = auto()
+
+
+# Contribution Table
+class DonorType(StrEnum):
+    INDIVIDUAL = "individual"
+    ORGANIZATION = "organization"
+
+
+class DonationCategory(StrEnum):
+    DONATION = "donation"
+    RAFFLE = "raffle"
+    EVENT = "event"

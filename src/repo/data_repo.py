@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 import pandas as pd
-from src.constants import ExpenseCategory
 
 
 class DataRepo(ABC):
@@ -19,7 +18,7 @@ class DataRepo(ABC):
         pass
 
     @abstractmethod
-    def get_expenses_data(_self, categories: list[ExpenseCategory]) -> pd.DataFrame:
+    def get_expenses_data(_self) -> pd.DataFrame:
         pass
 
     @abstractmethod
