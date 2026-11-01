@@ -31,11 +31,15 @@ class ExpenseCategory(StrEnum):
 
 # Contribution Table
 class DonorType(StrEnum):
-    INDIVIDUAL = "individual"
+    MEMBER = "member"
     ORGANIZATION = "organization"
 
 
 class DonationCategory(StrEnum):
     DONATION = "donation"
     RAFFLE = "raffle"
-    EVENT = "event"
+    HOSPITALITY = "hospitality"
+
+
+class DonationEvent(StrEnum):
+    MID_AUTUMN_FESTIVAL = "中秋节"

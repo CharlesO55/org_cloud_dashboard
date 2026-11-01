@@ -10,7 +10,17 @@ class DataRepo(ABC):
         pass
 
     @abstractmethod
-    def get_individual_contributions_data(_self) -> pd.DataFrame:
+    def get_contributions_data(
+        _self,
+        donor_type: str | None = None,
+        category: str | None = None,
+        event: str | tuple[str] = (),
+    ) -> pd.DataFrame:
+        pass
+
+    def get_contributions_agg(
+        _self,
+    ) -> pd.DataFrame:
         pass
 
     @abstractmethod
