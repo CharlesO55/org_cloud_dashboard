@@ -8,8 +8,6 @@ from repo.clients import get_repo_client
 @st.fragment
 def board_contributions():
     with st.container(border=1):
-        _aggregate_cards()
-
         grid = [
             st.columns(2),
             st.columns(2),
@@ -19,7 +17,6 @@ def board_contributions():
             selected_donor = st.segmented_control(
                 "Donor Type",
                 options=list(DonorType),
-                default=DonorType.MEMBER,
                 key="contribution_donor_type",
             )
 
@@ -27,7 +24,6 @@ def board_contributions():
             selected_category = st.segmented_control(
                 "Donation Category",
                 options=list(DonationCategory),
-                default=DonationCategory.DONATION,
                 key="contribution_donation_category",
             )
 
@@ -44,18 +40,17 @@ def board_contributions():
             event=tuple(selected_event) if selected_event else (),
         )
 
+        _aggregate_cards(df)
         _contribution_table(df)
 
 
-def _aggregate_cards() -> None:
-    df_agg = get_repo_client().get_contributions_agg()
-
-    def render_donor_metrics(df, donor_type, title):
-        st.subheader(title)
+def _aggregate_cards(df) -> None:
+    def render_donor_metrics(df, donor_type):
+        st.subheader(donor_type.title())
         filtered_df = df.query("donor_type == @donor_type")
 
         if filtered_df.empty:
-            st.caption(f"No {title.lower()} data available.")
+            st.caption(f"No {donor_type.lower()} data available.")
             return
 
         cols = st.columns(3)
@@ -64,8 +59,14 @@ def _aggregate_cards() -> None:
             with cols[i % 3]:
                 st.metric(label=row.category.title(), value=row.amount, format="%,d")
 
-    render_donor_metrics(df_agg, DonorType.MEMBER, "Members")
-    render_donor_metrics(df_agg, DonorType.ORGANIZATION, "Organizations")
+    df_agg = (
+        df[["donor_type", "category", "amount"]]
+        .groupby(["donor_type", "category"], as_index=False)
+        .sum()
+    )
+
+    for donor_type in df_agg["donor_type"].unique():
+        render_donor_metrics(df_agg, donor_type)
 
 
 def _contribution_table(df: pd.DataFrame) -> None:
