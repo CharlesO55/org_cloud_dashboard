@@ -3,7 +3,13 @@ from typing import override
 import pandas as pd
 import streamlit as st
 
-from src.constants import BankCategory, DonationCategory, DonationEvent, DonorType
+from src.constants import (
+    BankCategory,
+    DonationCategory,
+    DonationEvent,
+    DonorType,
+    ExpenseCategory,
+)
 from src.repo.data_repo import DataRepo
 
 
@@ -16,8 +22,9 @@ class CsvRepo(DataRepo):
         """Gets bank account items or all if no filters are provided."""
 
         df_raw = pd.read_csv(
-            "data/bank.csv", parse_dates=["date"], date_format="%y-%m-%d"
+            "data/bank.csv", parse_dates=["date"], date_format="%Y-%m-%d"
         )
+        df_raw["date"] = df_raw["date"].dt.date
 
         df_raw["net"] = df_raw["interest"] - df_raw["tax"]
 
@@ -42,8 +49,9 @@ class CsvRepo(DataRepo):
     ) -> pd.DataFrame:
         """Returns the rows matching the query, else returns all if no filters is passed."""
         df_raw = pd.read_csv(
-            "data/contributions.csv", parse_dates=["date"], date_format="%y-%m-%d"
+            "data/contributions.csv", parse_dates=["date"], date_format="%Y-%m-%d"
         )
+        df_raw["date"] = df_raw["date"].dt.date
 
         conditions = []
         if donor_type:
@@ -64,13 +72,31 @@ class CsvRepo(DataRepo):
     def get_loans_data(_self, names: tuple[str] = ()) -> pd.DataFrame:
         """Gets loan items or all if no filters are provided."""
         df_raw = pd.read_csv(
-            "data/loans.csv", parse_dates=["date"], date_format="%y-%m-%d"
+            "data/loans.csv", parse_dates=["date"], date_format="%Y-%m-%d"
         )
+        df_raw["date"] = df_raw["date"].dt.date
 
         if names:
             return df_raw.query("name in @names")
 
         return df_raw
+
+    @st.cache_data
+    def fetch_expenses_data(_self) -> pd.DataFrame:
+        df_raw = pd.read_csv(
+            "data/expenses.csv", parse_dates=["date"], date_format="%Y-%m-%d"
+        )
+        df_raw["date"] = df_raw["date"].dt.date
+
+        return df_raw
+
+    @override
+    def get_maintenance_data(_self) -> pd.DataFrame:
+        df_raw = _self.fetch_expenses_data().query(
+            f"category == '{ExpenseCategory.MAINTENANCE}'"
+        )
+
+        return df_raw.reset_index(drop=True).drop(columns="category")
 
     @override
     def get_expenses_data(_self) -> pd.DataFrame:
