@@ -8,7 +8,6 @@ from src.constants import (
     DonationCategory,
     DonationEvent,
     DonorType,
-    ExpenseCategory,
 )
 from src.repo.data_repo import DataRepo
 
@@ -81,7 +80,7 @@ class CsvRepo(DataRepo):
 
         return df_raw
 
-    @st.cache_data
+    @st.cache_data()
     @override
     def fetch_expenses_data(_self) -> pd.DataFrame:
         df_raw = pd.read_csv(
