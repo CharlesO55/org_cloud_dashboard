@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from constants import DonationCategory, DonorType, DonationEvent
+from constants import DonationCategory, DonationEvent, DonorType
 from repo.clients import get_repo_client
 
 

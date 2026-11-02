@@ -1,20 +1,23 @@
 from abc import ABC, abstractmethod
+
 import pandas as pd
+
+from src.constants import DonorType, DonationCategory, DonationEvent, BankCategory
 
 
 class DataRepo(ABC):
     """Container for fetch data methods."""
 
     @abstractmethod
-    def get_savings_data(_self) -> pd.DataFrame:
-        pass
+    def get_bank_data(_self, category: BankCategory | None) -> pd.DataFrame:
+        """Gets bank account items or all if no filters are provided."""
 
     @abstractmethod
     def get_contributions_data(
         _self,
-        donor_type: str | None = None,
-        category: str | None = None,
-        event: str | tuple[str] = (),
+        donor_type: DonorType | None = None,
+        category: DonationCategory | None = None,
+        event: DonationEvent | tuple[DonationEvent] = (),
     ) -> pd.DataFrame:
         pass
 
