@@ -2,10 +2,11 @@ import pandas as pd
 import streamlit as st
 
 from repo.clients import get_repo_client
+from src.constants import ExpenseCategory
 
 
 def board_maintenance():
-    df = get_repo_client().get_maintenance_data()
+    df = get_repo_client().filter_expenses_data(ExpenseCategory.MAINTENANCE)
 
     with st.container(border=1):
         st.subheader("Metrics")

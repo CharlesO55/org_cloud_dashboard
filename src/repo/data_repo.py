@@ -2,7 +2,13 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from src.constants import DonorType, DonationCategory, DonationEvent, BankCategory
+from src.constants import (
+    BankCategory,
+    DonationCategory,
+    DonationEvent,
+    DonorType,
+    ExpenseCategory,
+)
 
 
 class DataRepo(ABC):
@@ -29,8 +35,15 @@ class DataRepo(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_maintenance_data(_self) -> pd.DataFrame:
+    def fetch_expenses_data(_self) -> pd.DataFrame:
+        """Gets the raw expenses data."""
         raise NotImplementedError()
+
+    def filter_expenses_data(_self, category: ExpenseCategory) -> pd.DataFrame:
+        """Gets the expenses data by category."""
+        df_raw = _self.fetch_expenses_data().query("category == @category")
+
+        return df_raw.reset_index(drop=True).drop(columns="category")
 
     @abstractmethod
     def get_members_data(_self) -> pd.DataFrame:
