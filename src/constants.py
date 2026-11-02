@@ -1,6 +1,5 @@
 from enum import StrEnum, auto
 
-
 DATABASE_ID = "analytics_db"
 
 
@@ -27,6 +26,12 @@ class ExpenseCategory(StrEnum):
     Interorganization_affairs = auto()
     Maintenance = auto()
     Meetings = auto()
+
+
+# Bank Table
+class BankCategory(StrEnum):
+    INTEREST = "interest"
+    TIME_DEPOSIT = "time deposit"
 
 
 # Contribution Table
