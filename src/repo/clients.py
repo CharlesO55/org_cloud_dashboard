@@ -1,8 +1,8 @@
 # Provide current active clients
 import streamlit as st
 
-from repo.data_repo import DataRepo
 from repo.csv_repo import CsvRepo
+from repo.data_repo import DataRepo
 
 
 @st.cache_resource
