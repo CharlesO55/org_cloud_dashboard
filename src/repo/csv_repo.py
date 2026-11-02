@@ -82,6 +82,7 @@ class CsvRepo(DataRepo):
         return df_raw
 
     @st.cache_data
+    @override
     def fetch_expenses_data(_self) -> pd.DataFrame:
         df_raw = pd.read_csv(
             "data/expenses.csv", parse_dates=["date"], date_format="%Y-%m-%d"
@@ -89,18 +90,6 @@ class CsvRepo(DataRepo):
         df_raw["date"] = df_raw["date"].dt.date
 
         return df_raw
-
-    @override
-    def get_maintenance_data(_self) -> pd.DataFrame:
-        df_raw = _self.fetch_expenses_data().query(
-            f"category == '{ExpenseCategory.MAINTENANCE}'"
-        )
-
-        return df_raw.reset_index(drop=True).drop(columns="category")
-
-    @override
-    def get_expenses_data(_self) -> pd.DataFrame:
-        pass
 
     @override
     def get_members_data(_self) -> pd.DataFrame:
