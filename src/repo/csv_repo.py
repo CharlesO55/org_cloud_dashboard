@@ -59,26 +59,18 @@ class CsvRepo(DataRepo):
 
         return df_raw.reset_index(drop=True)
 
-    @st.cache_data
+    @st.cache_data()
     @override
-    def get_contributions_agg(
-        _self,
-    ) -> pd.DataFrame:
-        """Returns the rows matching the query, else returns all if no filters is passed."""
-
-        df = _self.get_contributions_data()
-
-        df_agg = (
-            df[["donor_type", "category", "amount"]]
-            .groupby(["donor_type", "category"], as_index=False)
-            .sum()
+    def get_loans_data(_self, names: tuple[str] = ()) -> pd.DataFrame:
+        """Gets loan items or all if no filters are provided."""
+        df_raw = pd.read_csv(
+            "data/loans.csv", parse_dates=["date"], date_format="%y-%m-%d"
         )
 
-        return df_agg
+        if names:
+            return df_raw.query("name in @names")
 
-    @override
-    def get_loans_data(_self) -> pd.DataFrame:
-        pass
+        return df_raw
 
     @override
     def get_expenses_data(_self) -> pd.DataFrame:

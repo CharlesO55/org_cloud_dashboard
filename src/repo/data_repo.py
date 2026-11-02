@@ -11,6 +11,7 @@ class DataRepo(ABC):
     @abstractmethod
     def get_bank_data(_self, category: BankCategory | None) -> pd.DataFrame:
         """Gets bank account items or all if no filters are provided."""
+        raise NotImplementedError()
 
     @abstractmethod
     def get_contributions_data(
@@ -19,16 +20,13 @@ class DataRepo(ABC):
         category: DonationCategory | None = None,
         event: DonationEvent | tuple[DonationEvent] = (),
     ) -> pd.DataFrame:
-        pass
-
-    def get_contributions_agg(
-        _self,
-    ) -> pd.DataFrame:
-        pass
+        """Gets contribution items or all if no filters are provided."""
+        raise NotImplementedError()
 
     @abstractmethod
-    def get_loans_data(_self) -> pd.DataFrame:
-        pass
+    def get_loans_data(_self, names: tuple[str] = ()) -> pd.DataFrame:
+        """Gets loan items or all if no filters are provided."""
+        raise NotImplementedError()
 
     @abstractmethod
     def get_expenses_data(_self) -> pd.DataFrame:
