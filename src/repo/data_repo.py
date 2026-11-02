@@ -29,8 +29,8 @@ class DataRepo(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_expenses_data(_self) -> pd.DataFrame:
-        pass
+    def get_maintenance_data(_self) -> pd.DataFrame:
+        raise NotImplementedError()
 
     @abstractmethod
     def get_members_data(_self) -> pd.DataFrame:

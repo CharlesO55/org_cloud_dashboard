@@ -17,15 +17,12 @@ class TableName(StrEnum):
     Members = auto()
 
 
+# Expenses Table
 class ExpenseCategory(StrEnum):
-    @staticmethod
-    def _generate_next_value_(name, start, count, last_values):
-        return f"{name.lower().replace('_', ' ')}"
-
-    Inauguration = auto()
-    Interorganization_affairs = auto()
-    Maintenance = auto()
-    Meetings = auto()
+    INAUGURATION = "inauguration"
+    INTEROGANIZATION_AFFAIRS = "interorganization affairs"
+    MAINTENANCE = "maintenance"
+    MEETINGS = "meetings"
 
 
 # Bank Table
