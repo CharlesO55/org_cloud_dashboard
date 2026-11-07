@@ -42,6 +42,8 @@ class DonationCategory(StrEnum):
     RAFFLE = "raffle"
     HOSPITALITY = "hospitality"
 
+    SURPLUS = "surplus"
+
 
 class DonationEvent(StrEnum):
     MID_AUTUMN_FESTIVAL = "中秋节"
