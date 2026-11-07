@@ -10,7 +10,7 @@ class TableName(StrEnum):
 
     Contributions = auto()
     Loans = auto()
-    Savings = auto()
+    Bank = auto()
 
     Expenses = auto()
 
