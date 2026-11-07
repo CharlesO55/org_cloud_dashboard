@@ -1,50 +1,45 @@
 import pandas as pd
 import streamlit as st
 
+from repo.clients import get_repo_client
+
 
 @st.cache_data
-def load_data():
-    df_raw = pd.read_csv("data/1_6 loans.csv", parse_dates=['日期'], date_format='%m-%d-%y')
-    df_raw['月份'] = df_raw['日期'].dt.strftime('%Y-%m')
-    df_raw['日期'] = df_raw['日期'].dt.date
-
-    df_monthly = df_raw.groupby(['月份', '姓名'], as_index=False)['金额'].sum()
-
-    df_summary = df_raw.groupby('姓名').aggregate(
-        总金额=('金额', 'sum'),    
-        笔数=('金额', 'count'),
-        最后还款日=('日期', 'max')
-    )
-
-    return df_raw, df_monthly, df_summary
+def _cache_unique_names():
+    return get_repo_client().filter_loans_data()["name"].unique()
 
 
+@st.fragment
 def board_loans():
-    df_raw, df_monthly, df_summary = load_data()
-
     with st.container(border=1):
-        st.subheader("Metrics")
-        st.metric('Total Payments', df_monthly['金额'].sum(), format="%,d")
+        selected_names = st.multiselect(
+            "Name", options=_cache_unique_names(), default=_cache_unique_names()
+        )
+
+        df_raw = get_repo_client().filter_loans_data(
+            tuple(selected_names) if selected_names else ()
+        )
+
+        _loan_metrics(df_raw)
+        _monthly_timeline(df_raw)
+        _loans_table(df_raw)
 
 
-    with st.container(border=1):
-        st.subheader("Monthly Payments")
-        st.bar_chart(df_monthly, x='月份', y='金额', color='姓名')
+def _loan_metrics(df: pd.DataFrame):
+    cols = st.columns(2)
+
+    with cols[0]:
+        st.metric("Total", value=df["amount"].sum(), format="%,d")
+
+    with cols[1]:
+        st.metric("Repayments", value=df["amount"].count(), format="%,d")
 
 
-    with st.container(border=1):
-        st.subheader("Summary")
-        
-        st.dataframe(df_summary, column_config={
-            '总金额' : st.column_config.NumberColumn(format="%,d")
-        })
+def _monthly_timeline(df: pd.DataFrame):
+    st.bar_chart(df, x="date", y="amount", color="name")
 
-    
 
-    with st.container(border=1):
-        st.subheader("Records")
-
-        col_config = {
-            "金额" : st.column_config.NumberColumn(format="%,d")
-        }
-        st.dataframe(df_raw.drop(columns=['月份']), column_config=col_config)
+def _loans_table(df: pd.DataFrame):
+    return st.dataframe(
+        df, column_config={"amount": st.column_config.NumberColumn(format="%,d")}
+    )
