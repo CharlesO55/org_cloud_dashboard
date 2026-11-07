@@ -1,9 +1,9 @@
 import streamlit as st
 
-from src.elements.expenses.board_ceremonies import board_ceremonies
-from src.elements.expenses.board_maintenance import board_maintenance
-from src.elements.expenses.board_meetings import board_meetings
-from src.elements.expenses.board_organizations import board_oganizations
+from elements.expenses.board_ceremonies import board_ceremonies
+from elements.expenses.board_maintenance import board_maintenance
+from elements.expenses.board_meetings import board_meetings
+from elements.expenses.board_organizations import board_oganizations
 
 [tab_maintenance, tab_organizations, tab_meetings, tab_ceremony] = st.tabs(
     [

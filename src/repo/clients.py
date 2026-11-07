@@ -1,8 +1,8 @@
 # Provide current active clients
 import streamlit as st
 
-from src.repo.bq_repo import BigqueryRepo
-from src.repo.data_repo import DataRepo
+from repo.bq_repo import BigqueryRepo
+from repo.data_repo import DataRepo
 
 
 @st.cache_resource
