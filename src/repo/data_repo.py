@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from src.constants import (
+from app_constants import (
     BankCategory,
     DonationCategory,
     DonationEvent,

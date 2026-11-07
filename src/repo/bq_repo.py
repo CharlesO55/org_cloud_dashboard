@@ -5,8 +5,8 @@ import streamlit as st
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-from src.constants import TableName
-from src.repo.data_repo import DataRepo
+from app_constants import TableName
+from repo.data_repo import DataRepo
 
 
 class BigqueryRepo(DataRepo):

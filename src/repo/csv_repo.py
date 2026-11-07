@@ -3,7 +3,7 @@ from typing import override
 import pandas as pd
 import streamlit as st
 
-from src.repo.data_repo import DataRepo
+from repo.data_repo import DataRepo
 
 
 class CsvRepo(DataRepo):

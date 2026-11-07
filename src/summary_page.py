@@ -1,8 +1,8 @@
 import pandas as pd
 import streamlit as st
 
-from src.constants import DonationCategory
-from src.repo.clients import get_repo_client
+from app_constants import DonationCategory
+from repo.clients import get_repo_client
 
 with st.spinner("Initializing..."):
     _client = get_repo_client()

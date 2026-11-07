@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 
 from repo.clients import get_repo_client
-from src.constants import ExpenseCategory
+from app_constants import ExpenseCategory
 
 
 def board_maintenance():

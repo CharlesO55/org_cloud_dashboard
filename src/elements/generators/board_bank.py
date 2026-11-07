@@ -1,8 +1,8 @@
 import pandas as pd
 import streamlit as st
 
+from app_constants import BankCategory
 from repo.clients import get_repo_client
-from src.constants import BankCategory
 
 
 @st.fragment
