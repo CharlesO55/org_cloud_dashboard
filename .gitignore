@@ -6,6 +6,7 @@ dist/
 wheels/
 *.egg-info
 .venv
+uv.lock
 
 # Local data while prepping to upload to BQ
 .devcontainer/devcontainer-lock.json
