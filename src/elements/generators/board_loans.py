@@ -6,7 +6,7 @@ from repo.clients import get_repo_client
 
 @st.cache_data
 def _cache_unique_names():
-    return get_repo_client().get_loans_data()["name"].unique()
+    return get_repo_client().filter_loans_data()["name"].unique()
 
 
 @st.fragment
@@ -16,7 +16,7 @@ def board_loans():
             "Name", options=_cache_unique_names(), default=_cache_unique_names()
         )
 
-        df_raw = get_repo_client().get_loans_data(
+        df_raw = get_repo_client().filter_loans_data(
             tuple(selected_names) if selected_names else ()
         )
 
