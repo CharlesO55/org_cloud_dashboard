@@ -3,93 +3,46 @@ from typing import override
 import pandas as pd
 import streamlit as st
 
-from src.constants import (
-    BankCategory,
-    DonationCategory,
-    DonationEvent,
-    DonorType,
-)
 from src.repo.data_repo import DataRepo
 
 
 class CsvRepo(DataRepo):
     """Container for fetch data methods."""
 
-    @st.cache_data(hash_funcs={BankCategory: lambda c: c.value})
-    @override
-    def get_bank_data(_self, category: BankCategory | None) -> pd.DataFrame:
-        """Gets bank account items or all if no filters are provided."""
-
-        df_raw = pd.read_csv(
-            "data/bank.csv", parse_dates=["date"], date_format="%Y-%m-%d"
-        )
-        df_raw["date"] = df_raw["date"].dt.date
-
-        df_raw["net"] = df_raw["interest"] - df_raw["tax"]
-
-        if not category:
-            return df_raw
-
-        return df_raw.query("category == @category")
-
-    @st.cache_data(
-        hash_funcs={
-            DonorType: lambda t: t.value,
-            DonationCategory: lambda c: c.value,
-            DonationEvent: lambda e: e.value,
-        }
-    )
-    @override
-    def get_contributions_data(
-        _self,
-        donor_type: DonorType | None = None,
-        category: DonationCategory | None = None,
-        event: DonationEvent | tuple[DonationEvent] = (),
-    ) -> pd.DataFrame:
-        """Returns the rows matching the query, else returns all if no filters is passed."""
-        df_raw = pd.read_csv(
-            "data/contributions.csv", parse_dates=["date"], date_format="%Y-%m-%d"
-        )
-        df_raw["date"] = df_raw["date"].dt.date
-
-        conditions = []
-        if donor_type:
-            conditions.append("donor_type == @donor_type")
-        if category:
-            conditions.append("category == @category")
-        if event:
-            conditions.append("event in @event")
-
-        if conditions:
-            query_str = " and ".join(conditions)
-            return df_raw.query(query_str).reset_index(drop=True)
-
-        return df_raw.reset_index(drop=True)
-
-    @st.cache_data()
-    @override
-    def get_loans_data(_self, names: tuple[str] = ()) -> pd.DataFrame:
-        """Gets loan items or all if no filters are provided."""
-        df_raw = pd.read_csv(
-            "data/loans.csv", parse_dates=["date"], date_format="%Y-%m-%d"
-        )
-        df_raw["date"] = df_raw["date"].dt.date
-
-        if names:
-            return df_raw.query("name in @names")
-
+    def _load_csv(_self, filepath: str, date_col: str = "date") -> pd.DataFrame:
+        """Internal helper to load csv with parsed dates."""
+        df_raw = pd.read_csv(filepath, parse_dates=[date_col], date_format="%Y-%m-%d")
+        df_raw[date_col] = df_raw[date_col].dt.date
         return df_raw
 
-    @st.cache_data()
+    @st.cache_data
+    @override
+    def fetch_bank_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Bank table with Net computed."""
+        df_raw = _self._load_csv("data/bank.csv")
+        df_raw["net"] = df_raw["interest"] - df_raw["tax"]
+        return df_raw
+
+    @st.cache_data
+    @override
+    def fetch_contributions_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Contributions table."""
+        return _self._load_csv("data/contributions.csv")
+
+    @st.cache_data
+    @override
+    def fetch_loans_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Loans table."""
+        return _self._load_csv("data/loans.csv")
+
+    @st.cache_data
     @override
     def fetch_expenses_data(_self) -> pd.DataFrame:
-        df_raw = pd.read_csv(
-            "data/expenses.csv", parse_dates=["date"], date_format="%Y-%m-%d"
-        )
-        df_raw["date"] = df_raw["date"].dt.date
+        """Gets the entire cached Expenses table."""
+        return _self._load_csv("data/expenses.csv")
 
-        return df_raw
-
+    @st.cache_data
     @override
-    def get_members_data(_self) -> pd.DataFrame:
-        pass
+    def fetch_members_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Members table."""
+        return _self.read_csv("data/members.csv", date_col="appointment_date")

@@ -12,7 +12,7 @@ def board_bank():
             "Category", options=list(BankCategory)
         )
 
-        df = get_repo_client().get_bank_data(category=selected_bank_category)
+        df = get_repo_client().filter_bank_data(category=selected_bank_category)
 
         _total_metrics(df)
         _monthly_interest_timeline(df)

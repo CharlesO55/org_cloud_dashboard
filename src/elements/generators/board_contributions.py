@@ -34,7 +34,7 @@ def board_contributions():
                 key="contribution_donation_event",
             )
 
-        df = get_repo_client().get_contributions_data(
+        df = get_repo_client().filter_contributions_data(
             donor_type=selected_donor,
             category=selected_category,
             event=tuple(selected_event) if selected_event else (),
