@@ -1,66 +1,77 @@
+from typing import override
+
 import pandas as pd
 import streamlit as st
 from google.cloud import bigquery
+from google.oauth2 import service_account
 
-from src.constants import ExpenseCategory, TableName
-
-from src.data_repo import DataRepo
+from src.constants import TableName
+from src.repo.data_repo import DataRepo
 
 
 class BigqueryRepo(DataRepo):
     def __init__(self):
-        self.client = bigquery.Client(
-            project=st.secrets["project_id"],
-            location=st.secrets["location"],
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"]
+        )
+        self._client = bigquery.Client(
+            credentials=credentials, project=credentials.project_id
         )
 
-    def _get_data(self, sql: str) -> pd.DataFrame:
-        return self.client.query(query=sql).to_dataframe()
+    def _run_query(_self, sql: str) -> pd.DataFrame:
+        return _self._client.query(query=sql).to_dataframe()
 
     @st.cache_data
-    def get_savings_data(_self) -> pd.DataFrame:
+    @override
+    def fetch_bank_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Bank table with Net computed."""
         query_string = f"""
-            SELECT *
-            FROM `{TableName.Savings}`
+            SELECT *, 
+                (IFNULL(interest, 0) - IFNULL(tax, 0)) AS net
+            FROM `{TableName.Bank}`
+            ORDER BY date DESC
         """
-        return _self._get_data(query_string)
+        return _self._run_query(query_string)
 
     @st.cache_data
-    def get_individual_contributions_data(_self) -> pd.DataFrame:
+    @override
+    def fetch_contributions_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Contributions table."""
+
         query_string = f"""
             SELECT *
             FROM `{TableName.Contributions}`
-            WHERE donor_type='member'
-                AND category IN ('raffle','hospitality','donation')
-                AND event IS NULL
-            ORDER BY date, amount
+            ORDER BY date DESC, amount DESC
         """
-        return _self._get_data(query_string)
+        return _self._run_query(query_string)
 
     @st.cache_data
-    def get_loans_data(_self) -> pd.DataFrame:
+    @override
+    def fetch_loans_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Loans table."""
         query_string = f"""
             SELECT *
             FROM `{TableName.Loans}`
+            ORDER BY date DESC, amount DESC
         """
-        return _self._get_data(query_string)
+        return _self._run_query(query_string)
 
     @st.cache_data
-    def get_expenses_data(_self, categories: list[ExpenseCategory]) -> pd.DataFrame:
-        categories_arr = [cat.value for cat in categories]
-
+    def fetch_expenses_data(_self) -> pd.DataFrame:
         query_string = f"""
             SELECT *
             FROM `{TableName.Expenses}`
-            WHERE category IN UNNEST({categories_arr})
+            ORDER BY date DESC, amount DESC
         """
-        print(query_string)
-        return _self._get_data(query_string)
+        return _self._run_query(query_string)
 
     @st.cache_data
-    def get_members_data(_self) -> pd.DataFrame:
+    @override
+    def fetch_members_data(_self) -> pd.DataFrame:
+        """Gets the entire cached Members table."""
         query_string = f"""
             SELECT *
             FROM `{TableName.Members}`
+            ORDER BY appointment_date DESC
         """
-        return _self._get_data(query_string)
+        return _self._run_query(query_string)
